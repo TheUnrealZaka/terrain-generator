@@ -10,12 +10,12 @@ BEGIN
     BLOCK "040904E4"    // English US
     BEGIN
       //VALUE "CompanyName", "raylib technologies"
-      VALUE "FileDescription", "A cool game made with raylib (www.raylib.com)"
+      VALUE "FileDescription", "A simple procedural terrain generator for a demo of how Minecraft terrains generates. Made with C++ and Raylib."
       VALUE "FileVersion", "1.0.0"
-      VALUE "InternalName", "cool game"
-      VALUE "LegalCopyright", "(c) 2025 YOUR NAME"
+      VALUE "InternalName", "terrain-generator"
+      VALUE "LegalCopyright", "(c) 2025 TheUnrealZaka & Jowey7"
       //VALUE "OriginalFilename", "raylib_app"
-      VALUE "ProductName", "A cool game"
+      VALUE "ProductName", "Procedural Terrain Generator"
       VALUE "ProductVersion", "1.0.0"
     END
   END
