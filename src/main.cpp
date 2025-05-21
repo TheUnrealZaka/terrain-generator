@@ -148,16 +148,17 @@ Color heightToColor(float h) {
 }
 
 int main() {
-    // Parámetros de configuración
-    int n = 8;              // Tamaño del mapa 2^n+1 = 257
-    float roughness = 1.0f; // Rugosidad inicial (Diamond-Square)
-    int seed = time(NULL);       // Semilla para Perlin, aleatoria
-    float freq = 0.05f;     // Frecuencia (escala) del ruido Perlin
+    // Adjust parameters for smoother terrain
+    int n = 10;              // Keep map size at 257x257
+    float roughness = 0.7f; // Reduced roughness for smoother terrain
+    int seed = time(NULL);
+    float freq = 0.03f;     // Reduced frequency for more gradual changes
+    
     // Generar mapa con Diamond-Square
-    DiamondSquare ds(n, roughness,seed);
+    DiamondSquare ds(n, roughness, seed);
     auto &heightMapDS = ds.getMap();
     int mapSize = ds.getSize();
-    int scale = 2.5;
+    int scale = 1;
     // Generar mapa con Perlin Noise (para comparación)
     PerlinNoise perlin(seed);
     vector<vector<float>> heightMapPN(mapSize, vector<float>(mapSize));
@@ -177,11 +178,17 @@ int main() {
         ClearBackground(RAYWHITE);
         for(int y = 0; y < mapSize; y++) {
             for(int x = 0; x < mapSize; x++) {
+                // Apply some smoothing by averaging with neighbors
                 float h = heightMapDS[y][x];
-                if (h < 0) h = 0;
-                if (h > 1) h = 1;
-                DrawRectangle(x*scale, y*scale, scale, scale,heightToColor(h));
-                
+                if (x > 0 && x < mapSize-1 && y > 0 && y < mapSize-1) {
+                    h = (h + 
+                         heightMapDS[y-1][x] + 
+                         heightMapDS[y+1][x] + 
+                         heightMapDS[y][x-1] + 
+                         heightMapDS[y][x+1]) / 5.0f;
+                }
+                h = std::max(0.0f, std::min(1.0f, h));
+                DrawRectangle(x*scale, y*scale, scale, scale, heightToColor(h));
             }
         }
         EndDrawing();
